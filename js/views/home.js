@@ -62,20 +62,27 @@ function timeline(d) {
     months += `<span class="tick${jan ? ' is-year' : ''}${quarter ? '' : ' is-minor'}" style="left:${pct(m)}%">${jan ? m.getFullYear() : `${m.getMonth() + 1}월`}</span>`;
   }
 
-  // 원서 마감 표시. 라벨이 겹치지 않게 줄을 나눈다.
-  const laneEnds = [];
-  const marks = activeSchools(d)
+  // 원서 마감 표시. 지원을 정한 학교는 이름표를 달고 겹치지 않게 줄을 나눈다.
+  // 아직 조사중인 학교는 이름표 없이 짧은 눈금만(마우스를 올리면 이름).
+  const dated = activeSchools(d)
     .map((s) => ({ s, dt: parseDate(s['마감일']) }))
     .filter((x) => x.dt)
-    .sort((a, b) => a.dt - b.dt)
-    .map(({ s, dt }) => {
-      const p = pct(dt);
-      let lane = laneEnds.findIndex((e) => p - e >= 6);
-      if (lane < 0) lane = Math.min(laneEnds.length, 3);
-      laneEnds[lane] = p;
-      const main = s['구분'] === '1순위' ? ' is-main' : '';
-      return `<span class="mark${main}" style="left:${p}%;--lane:${lane}" title="${esc(s['학교'])} ${esc(s['프로그램'])} · ${fmtDate(dt)}"><b>${esc(s['코드'] || s['학교'])}</b></span>`;
-    }).join('');
+    .sort((a, b) => a.dt - b.dt);
+  const decided = ({ s }) => s['상태'] !== '조사중' || s['구분'] === '1순위';
+  const laneEnds = [];
+  const flags = dated.filter(decided).map(({ s, dt }) => {
+    const p = pct(dt);
+    const code = s['코드'] || s['학교'];
+    let lane = laneEnds.findIndex((e) => p >= e);
+    if (lane < 0) lane = laneEnds.length < 6 ? laneEnds.length : laneEnds.indexOf(Math.min(...laneEnds));
+    laneEnds[lane] = p + 2 + code.length * 1.1; // 이름표가 차지하는 폭(대략 %)
+    const main = s['구분'] === '1순위' ? ' is-main' : '';
+    return `<span class="mark${main}" style="left:${p}%;--lane:${lane}" title="${esc(s['학교'])} ${esc(s['프로그램'])} · ${fmtDate(dt)}"><b>${esc(code)}</b></span>`;
+  }).join('');
+  const candidates = dated.filter((x) => !decided(x)).map(({ s, dt }) => (
+    `<span class="mark is-candidate" style="left:${pct(dt)}%" title="조사중: ${esc(s['학교'])} ${esc(s['프로그램'])} · ${fmtDate(dt)}"></span>`
+  )).join('');
+  const marks = candidates + flags;
 
   const ticks = d.tasks
     .filter((t) => !isDone(t['상태']) && t['상태'] !== '보류')
@@ -92,7 +99,7 @@ function timeline(d) {
       <div class="tl-axis">${months}</div>
       <div class="tl-today" style="left:${pct(now)}%"><span>오늘</span></div>
     </div>
-    <p class="tl-legend"><span><i class="lg-mark"></i>원서 마감</span><span><i class="lg-tick"></i>할 일 마감</span><span><i class="lg-today"></i>오늘</span></p>
+    <p class="tl-legend"><span><i class="lg-mark"></i>원서 마감</span><span><i class="lg-cand"></i>조사중인 학교 마감</span><span><i class="lg-tick"></i>할 일 마감</span><span><i class="lg-today"></i>오늘</span></p>
   </section>`;
 }
 
@@ -123,12 +130,15 @@ function deadlines(d) {
     .filter((s) => parseDate(s['마감일']))
     .sort((a, b) => parseDate(a['마감일']) - parseDate(b['마감일']));
   if (!list.length) return empty('마감일이 적힌 학교가 없습니다.', 'schools');
-  return `<ul class="rows">${list.map((s) => `<li class="row">
+  const upcoming = list.filter((s) => daysUntil(parseDate(s['마감일'])) >= 0 || s['구분'] === '1순위');
+  const shown = upcoming.slice(0, 6);
+  return `<ul class="rows">${shown.map((s) => `<li class="row">
       ${chip(s['코드'], 'code')}
       <div class="row-main"><p class="row-title">${esc(s['학교'])}</p>
         <p class="row-meta">${esc(s['프로그램'])} · <span class="mono">${fmtDate(parseDate(s['마감일']))}</span>${s['마감확정'] === '확정' ? '' : ' · 추정'}</p></div>
       ${due(s['마감일'], s['상태'] === '제출완료')}
-    </li>`).join('')}</ul>`;
+    </li>`).join('')}</ul>
+    <a class="more" href="#schools">${list.length > shown.length ? `학교 ${list.length}곳 모두 보기` : '학교 화면 보기'}</a>`;
 }
 
 function docProgress(d) {
@@ -189,7 +199,7 @@ export default {
         ${panel('학교별 서류', docProgress(d))}
         ${panel('포트폴리오', portfolio(d))}
         ${panel('영어 시험', english(d))}
-        ${panel('최근 기록', recentLog(d))}
+        ${panel('최근 기록', recentLog(d), 'is-full')}
       </div>`;
   },
 };
