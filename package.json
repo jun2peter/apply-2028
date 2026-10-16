@@ -1,0 +1,10 @@
+{
+  "name": "listmanager",
+  "private": true,
+  "description": "MIT Media Lab 지원 준비 대시보드. 데이터는 구글 시트, 사이트는 빌드 없는 정적 파일.",
+  "type": "module",
+  "scripts": {
+    "check": "node tools/check-sheet.js",
+    "serve": "python -m http.server 8000"
+  }
+}

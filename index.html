@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>미디어랩 지원 보드</title>
+  <meta name="description" content="MIT Media Lab과 함께 지원할 대학원 준비를 구글 시트 하나로 관리하는 대시보드">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="css/style.css">
+  <script type="module" src="js/app.js"></script>
+</head>
+<body>
+  <header class="top">
+    <div class="top-inner">
+      <a class="brand" href="#home">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span><strong>미디어랩 지원 보드</strong><small>2027 가을 원서 · 2028 가을 입학</small></span>
+      </a>
+      <nav id="nav" aria-label="화면"></nav>
+      <div class="top-actions">
+        <span id="status" class="status" aria-live="polite"></span>
+        <button type="button" id="refresh" class="btn">새로고침</button>
+        <a id="sheet-link" class="btn" href="#" target="_blank" rel="noopener">시트 열기 ↗</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="view" class="wrap" tabindex="-1">
+    <p class="loading">시트에서 불러오는 중…</p>
+  </main>
+
+  <footer class="foot wrap">
+    <p>내용은 모두 구글 시트에서 옵니다. 고칠 때는 시트에서 고치고 새로고침하세요.</p>
+    <p><a id="foot-sheet" href="#" target="_blank" rel="noopener">구글 시트</a> · <a href="https://github.com/jun2peter/listmanager" target="_blank" rel="noopener">GitHub 저장소</a></p>
+  </footer>
+</body>
+</html>
