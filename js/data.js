@@ -2,7 +2,7 @@
 // 시트가 '링크가 있는 모든 사용자: 뷰어'로 공유돼 있어야 로그인 없이 읽힌다.
 import { SHEET_ID, TABS } from './config.js';
 
-const CACHE_KEY = 'listmanager:data:v1';
+const CACHE_KEY = 'apply-2028:data:v1';
 
 export function csvUrl(gid) {
   return `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${gid}`;

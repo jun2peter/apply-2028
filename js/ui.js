@@ -84,10 +84,10 @@ export function bar(done, total) {
 // 필터 같은 개인 설정은 이 브라우저에만 저장
 export const prefs = {
   get(key, fallback) {
-    try { const v = localStorage.getItem(`listmanager:${key}`); return v === null ? fallback : JSON.parse(v); } catch { return fallback; }
+    try { const v = localStorage.getItem(`apply-2028:${key}`); return v === null ? fallback : JSON.parse(v); } catch { return fallback; }
   },
   set(key, value) {
-    try { localStorage.setItem(`listmanager:${key}`, JSON.stringify(value)); } catch { /* 무시 */ }
+    try { localStorage.setItem(`apply-2028:${key}`, JSON.stringify(value)); } catch { /* 무시 */ }
   },
 };
 

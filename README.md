@@ -4,7 +4,7 @@ MIT Media Lab(과 함께 지원할 학교) 원서 준비를 한눈에 보는 대
 내용은 전부 구글 시트에 있고, 이 사이트는 시트를 읽어서 보여 주기만 합니다.
 
 - 시트: https://docs.google.com/spreadsheets/d/1wrqY1v3PXdXruQnuOd3c7qaC83z7hvpVQ5Oocj38bZ4/edit
-- 사이트: https://jun2peter.github.io/listmanager/
+- 사이트: https://jun2peter.github.io/apply-2028/
 
 ## 화면
 
