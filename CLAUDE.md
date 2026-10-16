@@ -18,7 +18,7 @@
 | 사이트 | 이 저장소 → GitHub Pages | 시트를 읽어서 대시보드로 보여 주기만 한다(읽기 전용) |
 
 - 시트: https://docs.google.com/spreadsheets/d/1wrqY1v3PXdXruQnuOd3c7qaC83z7hvpVQ5Oocj38bZ4/edit
-- 사이트: https://jun2peter.github.io/apply-2028/ (Pages를 켠 뒤)
+- 사이트: https://jun2peter.github.io/apply-2028/ (GitHub Pages, `main` / `(root)`)
 
 ## 사용자와 일하는 방식
 
